@@ -1,0 +1,125 @@
+{
+  "$comment": "Files in src/ that intentionally diverge from derive(upstream). Each needs a reason, the upstream SHA it forked from, and the SSOT section it serves.",
+  "forks": [
+    {
+      "path": "agents/orc-agent.md",
+      "reason": "Find orc-mode by the Claude Code or Codex plugin manifest instead of .cursor-plugin/plugin.json.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/orc-help/SKILL.md",
+      "reason": "Rewritten as Orc for four harnesses: no Custom Mode, Cursor install, excluded skills, or guide links; adds the attribution line and the mixed-framework check. Lists the orcstack skills (adopt-orcstack, work-brief, adr, contract-inventory, cold-start-review, ci-tiers, test-audit).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a74 F5, \u00a73"
+    },
+    {
+      "path": "skills/orc-mode/SKILL.md",
+      "reason": "Orc description; create-skill, deslop, control-ui/cli, Cursor babysit, Bugbot, Origin, and cloud agents replaced with orcstack routes, surface-check, review-triage, gh, and isolated worktrees. Model invocation is enabled so the SessionStart hook and AGENTS.md routing (ADR-0002 D3) can load it; other skills keep disable-model-invocation. Adds the orcstack gate before routing: one operating rule (stop on another router, route to adopt-orcstack on unconverted artifacts), intent from the Planning SSOT, and a brief per change. Applies project extensions from .orcstack/config.json after the gate (ADR-0004). Links the orcstack verification and records policies (references/verification.md, references/records.md) for the playbooks and skills that are not forked (M3-3, M3-4). Routes to the orcstack knowledge and CI skills (M3-5, M3-6). Reads the SSOT and ADR paths from records in .orcstack/config.json (ADR-0005). The gate also stops on pstack's poteto-mode routing (M3-9 P2). After the gate, work that changes code or documents must open its playbook and copy the steps into the todo before any work, in a governed repository or not (M5-5). Adds orcstack project selection and same-plugin path resolution for coinstalled workflows (\u00a78).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a74 F1 F6, \u00a76 C1 C5 C7, philosophy \u00a73"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/authoring-a-skill.md",
+      "reason": "Cursor create-skill replaced with Agent Skills format rules and orcstack capability tokens.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/autonomous-run.md",
+      "reason": "Cursor /loop replaced with the loop capability.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/autopilot-full.md",
+      "reason": "Owners and verifiers run in isolated worktrees on gh; deslop and control skills replaced with the Before commit route and surface-check.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a76 C1"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/babysit.md",
+      "reason": "GitHub only: Origin forge branches removed; Bugbot triage generalized to review bots via references/review-triage.md; /loop via the loop capability.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a76 C1"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/bug-fix.md",
+      "reason": "Cursor /loop replaced with the loop capability. Adds the permanent-ratchet-or-recorded-reason step from red-before-green (M3-3).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/multi-phase-plan.md",
+      "reason": "gh only; control skills replaced with surface-check; cloud VMs with isolated worktrees; Bugbot triage with review-bot triage. The plan is temporary; intent goes to the SSOT and each PR gets a brief (M3-4).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a76 C1"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/opening-a-pr.md",
+      "reason": "gh only: built-in PR tool and Origin removed; deslop replaced with the Before commit route. Adds the Intent section and per-acceptance-item verification lines (M3-4).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a76 C1"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/orchestrate.md",
+      "reason": "Workers run in isolated worktrees instead of cloud VMs; control skills replaced with surface-check.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/session-pickup.md",
+      "reason": "Cloud-agent URLs removed as a pickup source. Committed records (SSOT, brief, ADR) outrank the transcript (M3-4). Names the Planning SSOT without a fixed path (ADR-0005).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/shipping.md",
+      "reason": "gh only: Origin removed; verifiers are subagents in isolated worktrees using surface-check instead of Cursor cloud agents and control skills. A verdict never replaces required CI (M3-4).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a76 C1"
+    },
+    {
+      "path": "skills/orc-mode/playbooks/worktree-cleanup.md",
+      "reason": "Cursor worktree path and Cursor application cache removed.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/reflect/SKILL.md",
+      "reason": "Cursor create-skill replaced with the authoring playbook; the new-skill marker is `new skill:`.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/reflect/references/synthesizer.md",
+      "reason": "Matches the `new skill:` marker; Bugbot and model-slug examples replaced.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, \u00a76 C1"
+    },
+    {
+      "path": "skills/setup-orcstack/SKILL.md",
+      "reason": "Rewritten for a plain model sheet read by skills: no Cursor rule file, budget ladder, or grok/claude slug defaults; every role defaults to inherit (ADR-0002 D4).",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73, ADR-0002 D4"
+    },
+    {
+      "path": "skills/swarm/SKILL.md",
+      "reason": "Workers run in isolated worktrees instead of Cursor cloud environments.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/why/SKILL.md",
+      "reason": "MCP discovery no longer assumes Cursor's mcps/ directory.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a73"
+    },
+    {
+      "path": "skills/adopt-orcstack/templates/agents-block.md",
+      "reason": "Select one installed workflow and resolve sibling skills within the selected plugin before routing.",
+      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "ssot": "\u00a78"
+    }
+  ]
+}

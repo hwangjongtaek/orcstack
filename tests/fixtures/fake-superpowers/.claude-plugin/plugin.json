@@ -1,0 +1,5 @@
+{
+  "name": "superpowers",
+  "version": "0.0.0-fixture",
+  "description": "orcstack test fixture. Imitates only the Superpowers session bootstrap markers and two skill names. It is not Superpowers and contains none of its code."
+}

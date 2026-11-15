@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "sdd-helper@synapse-marketplace": false,
+    "tmux-orchestrator@orchwang-marketplace": false
+  }
+}

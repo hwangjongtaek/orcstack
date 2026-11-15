@@ -1,0 +1,105 @@
+# Tier 2 high-cost trust (docs/philosophy.md §4, M5-3): nightly, on demand, and on PRs labeled risk:high.
+# - check: the full Tier 0 + Tier 1 suite on main.
+# - install-smoke: installs this checkout into the latest Claude Code, Codex, oh-my-pi, and opencode, each in a throwaway
+#   config directory, and reports harness versions that drifted from harness/*.json (no model calls).
+# - model-e2e: Claude Code sessions (routing, the gate, project extensions). Weekly, on demand, and on risk:high PRs, not
+#   nightly: it runs on the CLAUDE_CODE_OAUTH_TOKEN secret (`claude setup-token`, a subscription's usage limits) or on
+#   ANTHROPIC_API_KEY. Without either the job says so and passes. Locally: npm run e2e:model.
+name: tier2
+
+on:
+  schedule:
+    - cron: "0 18 * * *" # nightly 03:00 KST: check, install-smoke
+    - cron: "0 19 * * 0" # weekly Monday 04:00 KST: model-e2e
+  workflow_dispatch:
+  pull_request:
+    types: [labeled, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tier2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'risk:high')) && github.event.schedule != '0 19 * * 0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run check
+
+  install-smoke:
+    if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'risk:high')) && github.event.schedule != '0 19 * * 0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: oven-sh/setup-bun@v2
+      - name: install the harness CLIs (latest)
+        run: |
+          npm install -g @anthropic-ai/claude-code @openai/codex opencode-ai
+          bun install -g @oh-my-pi/pi-coding-agent
+          echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
+      - name: install smoke
+        run: |
+          set -o pipefail
+          node tests/e2e/install-smoke.mjs --require | tee "$RUNNER_TEMP/smoke.json"
+      - name: report
+        if: always()
+        run: |
+          [ -f "$RUNNER_TEMP/smoke.json" ] || exit 0
+          # shellcheck disable=SC2016 # JavaScript template literals, not shell
+          node -e '
+            const r = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+            const rows = r.results.map((x) => `| ${x.harness} | ${x.ok ? "ok" : "FAIL"} | ${x.cli ?? "-"} | ${x.drift ? `measured ${x.drift.measured}` : ""} | ${x.error ?? x.skipped ?? ""} |`);
+            console.log(["## install smoke", "", `orcstack ${r.version}`, "", "| harness | result | CLI | drift | note |", "|---|---|---|---|---|", ...rows].join("\n"));
+          ' "$RUNNER_TEMP/smoke.json" >> "$GITHUB_STEP_SUMMARY"
+
+  model-e2e:
+    if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'risk:high')) && (github.event_name != 'schedule' || github.event.schedule == '0 19 * * 0')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+    steps:
+      - name: no credentials
+        if: env.ANTHROPIC_API_KEY == '' && env.CLAUDE_CODE_OAUTH_TOKEN == ''
+        run: echo "Neither CLAUDE_CODE_OAUTH_TOKEN nor ANTHROPIC_API_KEY is set; model e2e skipped." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/checkout@v4
+        if: env.ANTHROPIC_API_KEY != '' || env.CLAUDE_CODE_OAUTH_TOKEN != ''
+      - uses: actions/setup-node@v4
+        if: env.ANTHROPIC_API_KEY != '' || env.CLAUDE_CODE_OAUTH_TOKEN != ''
+        with:
+          node-version: 22
+      - name: model e2e
+        if: env.ANTHROPIC_API_KEY != '' || env.CLAUDE_CODE_OAUTH_TOKEN != ''
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          # An empty variable is not "unset": leave only the credential that exists.
+          [ -n "$ANTHROPIC_API_KEY" ] || unset ANTHROPIC_API_KEY
+          [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ] || unset CLAUDE_CODE_OAUTH_TOKEN
+          failed=0
+          e2e() {
+            echo "::group::$*"
+            if node "$@" > "$RUNNER_TEMP/out.json"; then result=pass; else result=FAIL; failed=1; fi
+            cat "$RUNNER_TEMP/out.json"
+            echo "::endgroup::"
+            echo "- \`$*\`: $result" >> "$GITHUB_STEP_SUMMARY"
+          }
+          e2e tests/e2e/routing.mjs
+          e2e tests/e2e/gate.mjs
+          e2e tests/e2e/extensions.mjs --case extend
+          e2e tests/e2e/extensions.mjs --case off
+          exit "$failed"

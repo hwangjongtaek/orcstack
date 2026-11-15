@@ -1,0 +1,107 @@
+{
+  "$comment": "Cursor names to neutral capability tokens, applied in order after rename. Token notation is settled in ADR-0003 (M1-3).",
+  "rules": [
+    {
+      "id": "spawn-subagent-tool",
+      "pattern": "`Task`",
+      "flags": "g",
+      "to": "{{spawn-subagent}}"
+    },
+    {
+      "id": "spawn-subagent-phrase",
+      "pattern": "\\bTask (tool|subagent|call|spawn)",
+      "flags": "g",
+      "to": "{{spawn-subagent}} $1"
+    },
+    {
+      "id": "ask-user",
+      "pattern": "`AskQuestion`|\\bAskQuestion\\b",
+      "flags": "g",
+      "to": "{{ask-user}}"
+    },
+    {
+      "id": "todo",
+      "pattern": "\\btodo ?list\\b",
+      "flags": "gi",
+      "to": "{{todo}}"
+    },
+    {
+      "id": "subagent-general",
+      "pattern": "`generalPurpose`|\\bgeneralPurpose\\b",
+      "flags": "g",
+      "to": "{{subagent-general}}"
+    },
+    {
+      "id": "spawn-readonly",
+      "pattern": "`readonly: true`|readonly: true",
+      "flags": "g",
+      "to": "{{spawn-readonly}}"
+    },
+    {
+      "id": "background",
+      "pattern": "`run_in_background: true`|run_in_background: true",
+      "flags": "g",
+      "to": "{{background}}"
+    },
+    {
+      "id": "resume-subagent",
+      "pattern": "`resume`",
+      "flags": "g",
+      "to": "{{resume-subagent}}"
+    },
+    {
+      "id": "model-inherit",
+      "pattern": "inherit-parent",
+      "flags": "g",
+      "to": "inherit"
+    },
+    {
+      "id": "model-sheet",
+      "pattern": "~/\\.cursor/rules/orcstack-models\\.md",
+      "flags": "g",
+      "to": "{{model-sheet}}"
+    },
+    {
+      "id": "transcripts",
+      "pattern": "\\.cursor/projects/[^\\s`)]*agent-transcripts[^\\s`)]*|agent-transcripts",
+      "flags": "g",
+      "to": "{{transcripts}}"
+    },
+    {
+      "id": "transcripts-root",
+      "pattern": "~/\\.cursor/projects/\\*/|\\$?HOME/\\.cursor/projects/",
+      "flags": "g",
+      "to": "{{transcripts-root}}"
+    },
+    {
+      "id": "skill-dir",
+      "pattern": "~?/?\\.cursor/skills/?",
+      "flags": "g",
+      "to": "{{skill-dir}}"
+    },
+    {
+      "id": "plugin-dir",
+      "pattern": "~/\\.cursor/plugins/?",
+      "flags": "g",
+      "to": "{{plugin-dir}}"
+    },
+    {
+      "id": "project-settings",
+      "pattern": "\\.cursor/settings\\.json",
+      "flags": "g",
+      "to": "{{project-settings}}"
+    },
+    {
+      "id": "model-default",
+      "pattern": "`(grok-\\d[\\w.-]*|claude-[a-z]+-\\d[\\w-]*|gpt-\\d[\\w.]*-[\\w.-]+|composer-[\\w.-]+)`",
+      "flags": "g",
+      "to": "{{model-default}}"
+    },
+    {
+      "id": "project-rule",
+      "pattern": "\\.cursor/rules/[^\\s`)]*|always-applied rule",
+      "flags": "g",
+      "to": "{{project-rule}}"
+    }
+  ]
+}

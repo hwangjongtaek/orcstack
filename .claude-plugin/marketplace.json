@@ -1,0 +1,21 @@
+{
+  "name": "orcstack",
+  "owner": {
+    "name": "orcstack"
+  },
+  "description": "Personal engineering workflow plugins. Port of Poteto Stack (pstack) by Lauren Tan.",
+  "plugins": [
+    {
+      "name": "orcstack",
+      "source": "./dist/claude-code",
+      "description": "Claude Code build of orcstack: orc-mode routing, Planning SSOT, work briefs, ADRs, ratcheting tests, and tiered CI.",
+      "category": "development"
+    },
+    {
+      "name": "orcstack-omp",
+      "source": "./dist/omp",
+      "description": "oh-my-pi build of orcstack (tool names rendered for omp). Claude Code users install `orcstack` instead.",
+      "category": "development"
+    }
+  ]
+}

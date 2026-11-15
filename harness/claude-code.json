@@ -1,0 +1,105 @@
+{
+  "harness": "claude-code",
+  "measured": {
+    "version": "2.1.318",
+    "date": "2026-11-05",
+    "source": "docs/spikes/harness-mapping.md"
+  },
+  "package": {
+    "manifest": ".claude-plugin/plugin.json",
+    "name": "orcstack",
+    "include": [
+      "skills/**",
+      "agents/**"
+    ],
+    "hooks": true
+  },
+  "capabilities": {
+    "spawn-subagent": {
+      "render": "`Agent`",
+      "native": true
+    },
+    "subagent-general": {
+      "render": "`general-purpose`",
+      "native": true
+    },
+    "spawn-readonly": {
+      "render": "a read-only agent type such as `Explore`, told not to edit",
+      "native": true
+    },
+    "background": {
+      "render": "`run_in_background: true`",
+      "native": true
+    },
+    "resume-subagent": {
+      "render": "`SendMessage` to the running agent",
+      "native": true
+    },
+    "ask-user": {
+      "render": "the `AskUserQuestion` tool",
+      "native": true,
+      "note": "Interactive sessions only; absent under -p"
+    },
+    "todo": {
+      "render": "todo list (a checklist in your reply)",
+      "native": false,
+      "note": "No todo tool in this version's tool list"
+    },
+    "isolated-worktree": {
+      "render": "`EnterWorktree`, or an `Agent` with worktree isolation",
+      "native": true
+    },
+    "worktree-root": {
+      "render": "the paths that `git worktree list` prints",
+      "native": true
+    },
+    "run-skill": {
+      "render": "`/orcstack:<name>`",
+      "native": true
+    },
+    "project-rule": {
+      "render": "`CLAUDE.md`",
+      "native": true
+    },
+    "project-settings": {
+      "render": "`.claude/settings.json`",
+      "native": true
+    },
+    "session-hook": {
+      "render": "the orcstack `SessionStart` hook",
+      "native": true
+    },
+    "model-default": {
+      "render": "the session model",
+      "native": true
+    },
+    "model-sheet": {
+      "render": "`~/.claude/orcstack-models.md`",
+      "native": true
+    },
+    "transcripts": {
+      "render": "`~/.claude/projects/<project-slug>/`",
+      "native": true
+    },
+    "transcripts-root": {
+      "render": "`~/.claude/projects/`",
+      "native": true
+    },
+    "skill-dir": {
+      "render": "`~/.claude/skills/`",
+      "native": true
+    },
+    "plugin-dir": {
+      "render": "`~/.claude/plugins/`",
+      "native": true
+    },
+    "surface-check": {
+      "render": "the repository's Feature Map and verify skill",
+      "native": true
+    },
+    "loop": {
+      "render": "`/loop`",
+      "native": true
+    }
+  }
+}

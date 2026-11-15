@@ -1,0 +1,22 @@
+# Installed by orcstack adopt-orcstack. Tier 0: blocks SDD, Spec Kit, and Superpowers artifacts after the cutover.
+name: orcstack-guard
+
+# Pull requests run it; pushes run it only on the default branch, so a PR branch runs it once.
+on:
+  push:
+    branches: [<default-branch>]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  orcstack-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node .orcstack/check-no-sdd.mjs

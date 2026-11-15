@@ -1,0 +1,107 @@
+{
+  "harness": "omp",
+  "measured": {
+    "version": "18.15.0",
+    "date": "2026-11-05",
+    "source": "docs/spikes/harness-mapping.md"
+  },
+  "package": {
+    "manifest": ".claude-plugin/plugin.json",
+    "name": "orcstack-omp",
+    "include": [
+      "skills/**",
+      "agents/**"
+    ],
+    "hooks": false
+  },
+  "capabilities": {
+    "spawn-subagent": {
+      "render": "`task`",
+      "native": true
+    },
+    "subagent-general": {
+      "render": "the default agent",
+      "native": true
+    },
+    "spawn-readonly": {
+      "render": "a subagent told not to edit",
+      "native": true
+    },
+    "background": {
+      "render": "`task`, then `wait` for the result",
+      "native": true
+    },
+    "resume-subagent": {
+      "render": "a new `task` that carries the prior report",
+      "native": false,
+      "note": "No resume of a running subagent"
+    },
+    "ask-user": {
+      "render": "the `ask` tool",
+      "native": true,
+      "note": "Interactive sessions only"
+    },
+    "todo": {
+      "render": "todo list (the `todo` tool)",
+      "native": true
+    },
+    "isolated-worktree": {
+      "render": "a `git worktree add` checkout",
+      "native": true
+    },
+    "worktree-root": {
+      "render": "the paths that `git worktree list` prints",
+      "native": true
+    },
+    "run-skill": {
+      "render": "`/skill:<name>`",
+      "native": true
+    },
+    "project-rule": {
+      "render": "`AGENTS.md`",
+      "native": true
+    },
+    "project-settings": {
+      "render": "`.omp/`",
+      "native": true
+    },
+    "session-hook": {
+      "render": "the orcstack routing block in `AGENTS.md`",
+      "native": false,
+      "note": "omp does not run Claude-format hooks"
+    },
+    "model-default": {
+      "render": "the session model",
+      "native": true
+    },
+    "model-sheet": {
+      "render": "`~/.omp/agent/orcstack-models.md`",
+      "native": true
+    },
+    "transcripts": {
+      "render": "`~/.omp/agent/sessions/<cwd-slug>/`",
+      "native": true
+    },
+    "transcripts-root": {
+      "render": "`~/.omp/agent/sessions/`",
+      "native": true
+    },
+    "skill-dir": {
+      "render": "`.agents/skills/`",
+      "native": true
+    },
+    "plugin-dir": {
+      "render": "`~/.omp/plugins/`",
+      "native": true
+    },
+    "surface-check": {
+      "render": "the repository's Feature Map and verify skill",
+      "native": true
+    },
+    "loop": {
+      "render": "an external scheduler such as cron or CI",
+      "native": false,
+      "note": "No built-in loop found"
+    }
+  }
+}

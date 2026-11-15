@@ -1,0 +1,106 @@
+{
+  "harness": "opencode",
+  "measured": {
+    "version": "1.18.25",
+    "date": "2026-11-05",
+    "source": "docs/spikes/harness-mapping.md"
+  },
+  "package": {
+    "manifest": null,
+    "name": "orcstack",
+    "include": [
+      "skills/**"
+    ],
+    "hooks": false
+  },
+  "capabilities": {
+    "spawn-subagent": {
+      "render": "`task`",
+      "native": true
+    },
+    "subagent-general": {
+      "render": "the `general` agent",
+      "native": true
+    },
+    "spawn-readonly": {
+      "render": "a subagent told not to edit",
+      "native": true
+    },
+    "background": {
+      "render": "the `task` tool",
+      "native": true
+    },
+    "resume-subagent": {
+      "render": "a new `task` that carries the prior report",
+      "native": false,
+      "note": "No resume of a running subagent"
+    },
+    "ask-user": {
+      "render": "the `question` tool",
+      "native": true,
+      "note": "TUI, app, and desktop only; absent under opencode run"
+    },
+    "todo": {
+      "render": "todo list (the `todowrite` tool)",
+      "native": true
+    },
+    "isolated-worktree": {
+      "render": "a `git worktree add` checkout",
+      "native": true
+    },
+    "worktree-root": {
+      "render": "the paths that `git worktree list` prints",
+      "native": true
+    },
+    "run-skill": {
+      "render": "the `skill` tool with `<name>`",
+      "native": true
+    },
+    "project-rule": {
+      "render": "`AGENTS.md`",
+      "native": true
+    },
+    "project-settings": {
+      "render": "`opencode.json`",
+      "native": true
+    },
+    "session-hook": {
+      "render": "the orcstack routing block in `AGENTS.md`",
+      "native": false,
+      "note": "opencode has no session hooks"
+    },
+    "model-default": {
+      "render": "the session model",
+      "native": true
+    },
+    "model-sheet": {
+      "render": "`~/.config/opencode/orcstack-models.md`",
+      "native": true
+    },
+    "transcripts": {
+      "render": "opencode's session store (`~/.local/share/opencode/opencode.db`)",
+      "native": true
+    },
+    "transcripts-root": {
+      "render": "opencode's session store (`~/.local/share/opencode/opencode.db`)",
+      "native": true
+    },
+    "skill-dir": {
+      "render": "`.agents/skills/`",
+      "native": true
+    },
+    "plugin-dir": {
+      "render": "`~/.config/opencode/plugins/`",
+      "native": true
+    },
+    "surface-check": {
+      "render": "the repository's Feature Map and verify skill",
+      "native": true
+    },
+    "loop": {
+      "render": "an external scheduler such as cron or CI",
+      "native": false,
+      "note": "No built-in loop"
+    }
+  }
+}

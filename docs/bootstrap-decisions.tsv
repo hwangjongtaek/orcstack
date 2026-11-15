@@ -1,0 +1,11 @@
+ts	phase	decision	why	evidence	result
+2026-11-15T12:10:00Z	frame	Use local dstack 0.1.1 as bootstrap baseline	Requested reference was found under Projects/datamaker	sync/downstream.json	198 reference tests passed
+2026-11-15T12:20:00Z	design	Use project selection with a session launcher	An unchanged peer hook cannot be suppressed after injection	docs/briefs/bootstrap.md	chosen
+2026-11-15T12:21:00Z	design	Export only changed shared files with baseline hash checks	Preserve company assets and independent downstream edits	sync/downstream.json	chosen
+2026-11-15T12:18:25.250812+00:00	audit	Supersede the first three row timestamps	Those times were estimated while drafting; only their decisions and evidence are valid	docs/bootstrap-decisions.tsv	Prior row times are not measured
+2026-11-15T12:18:25.250812+00:00	verify	Verified coinstalled choice and packaged shell hooks	Observe actual hook output and child environment rather than infer routing	tests/selection.test.mjs	6 selection tests passed
+2026-11-15T12:18:25.250812+00:00	verify	Applied sanitized changes to an isolated company copy	Verify the update artifact against company build and tests	/private/tmp/orcstack-company-verification.log	198 company tests passed; original untouched
+2026-11-15T12:18:25.250812+00:00	review	Reject duplicate translated output paths	Independent review identified silent overwrite risk	tests/export-downstream.test.mjs	8 export tests passed
+2026-11-15T12:18:25.250812+00:00	review	Narrow acceptance wording to observable hook behavior	Already injected peer instructions cannot be removed	docs/briefs/bootstrap.md	Documented launch-time guarantee
+2026-11-15T12:18:25.250812+00:00	verify	Compared provided mascot bytes	Preserve the requested image without conversion	assets/side_cropped.png	SHA-256 matches provided PNG
+2026-11-15T12:19:29.556797+00:00	complete	Final local checks and independent recheck passed	Verify bootstrap and shared update artifact before handoff	docs/briefs/bootstrap.md	212 local tests and 198 isolated company tests passed; live installs unverified

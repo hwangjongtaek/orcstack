@@ -1,0 +1,105 @@
+{
+  "harness": "codex",
+  "measured": {
+    "version": "0.163.0",
+    "date": "2026-11-05",
+    "source": "docs/spikes/harness-mapping.md"
+  },
+  "package": {
+    "manifest": ".codex-plugin/plugin.json",
+    "name": "orcstack",
+    "include": [
+      "skills/**"
+    ],
+    "hooks": true
+  },
+  "capabilities": {
+    "spawn-subagent": {
+      "render": "`spawn_agent`",
+      "native": true
+    },
+    "subagent-general": {
+      "render": "the default agent",
+      "native": true
+    },
+    "spawn-readonly": {
+      "render": "a subagent told not to edit, under a read-only sandbox",
+      "native": true
+    },
+    "background": {
+      "render": "`spawn_agent`, then `wait_agent` for the result",
+      "native": true
+    },
+    "resume-subagent": {
+      "render": "`send_message` to the running agent",
+      "native": true
+    },
+    "ask-user": {
+      "render": "the `request_user_input_async` tool",
+      "native": true
+    },
+    "todo": {
+      "render": "todo list (a checklist in your reply)",
+      "native": false,
+      "note": "No todo tool; create_goal/update_goal track a single goal"
+    },
+    "isolated-worktree": {
+      "render": "a `git worktree add` checkout",
+      "native": true
+    },
+    "worktree-root": {
+      "render": "the paths that `git worktree list` prints",
+      "native": true
+    },
+    "run-skill": {
+      "render": "`$<name>`",
+      "native": true
+    },
+    "project-rule": {
+      "render": "`AGENTS.md`",
+      "native": true
+    },
+    "project-settings": {
+      "render": "`.codex/config.toml`",
+      "native": true
+    },
+    "session-hook": {
+      "render": "the orcstack `SessionStart` hook, once the user has trusted it",
+      "native": true,
+      "note": "Untrusted hooks are skipped silently; AGENTS.md routing is the default"
+    },
+    "model-default": {
+      "render": "the session model",
+      "native": true
+    },
+    "model-sheet": {
+      "render": "`~/.codex/orcstack-models.md`",
+      "native": true
+    },
+    "transcripts": {
+      "render": "`$CODEX_HOME/sessions/`",
+      "native": true
+    },
+    "transcripts-root": {
+      "render": "`$CODEX_HOME/sessions/`",
+      "native": true
+    },
+    "skill-dir": {
+      "render": "`.agents/skills/`",
+      "native": true
+    },
+    "plugin-dir": {
+      "render": "`$CODEX_HOME/plugins/`",
+      "native": true
+    },
+    "surface-check": {
+      "render": "the repository's Feature Map and verify skill",
+      "native": true
+    },
+    "loop": {
+      "render": "an external scheduler such as cron or CI",
+      "native": false,
+      "note": "No built-in loop"
+    }
+  }
+}

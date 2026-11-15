@@ -1,0 +1,10 @@
+{
+  "$comment": "Lines in attribution context keep upstream names. Used by rename (skip) and denylist (exempt). The last pattern names pstack's poteto-mode as a second router that adopt-orcstack and the orc-mode gate detect (ADR-0002 D8, M3-9 P2); only lines carrying that exact phrase are exempt.",
+  "lines": [
+    "github\\.com/(cursor/plugins|poteto)",
+    "Lauren Tan",
+    "@poteto\\b",
+    "Poteto Stack",
+    "pstack's `poteto-mode`"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "$comment": "Tokens that must not survive derivation in skill prose. scripts/ are not forked (ADR-0002 D6), so only Markdown is checked. Lines matching attribution.json are exempt.",
+  "include": [
+    "**/*.md"
+  ],
+  "terms": [
+    {
+      "id": "bugbot",
+      "pattern": "bugbot",
+      "flags": "i",
+      "kind": "redesign",
+      "note": "Cursor review bot"
+    },
+    {
+      "id": "automations",
+      "pattern": "\\bAutomations?\\b|automations/benny|automation pack|\\bbenny\\b",
+      "flags": "",
+      "kind": "redesign",
+      "note": "Cursor Automations and the benny pack"
+    },
+    {
+      "id": "cloud-agent",
+      "pattern": "cloud[- ]agent|environment: \\\"(cloud|local)\\\"|cloud_base_branch",
+      "flags": "i",
+      "kind": "redesign",
+      "note": "Cursor cloud agents"
+    },
+    {
+      "id": "builtin-pr-tool",
+      "pattern": "built-in PR tool|ManagePullRequest|\\bCreatePr\\b",
+      "flags": "",
+      "kind": "redesign",
+      "note": "Cursor built-in PR tool"
+    },
+    {
+      "id": "origin-forge",
+      "pattern": "\\bOrigin\\b|`origin |command -v origin",
+      "flags": "",
+      "kind": "redesign",
+      "note": "Cursor internal forge CLI"
+    },
+    {
+      "id": "cursor-team-kit",
+      "pattern": "cursor-team-kit",
+      "flags": "",
+      "kind": "redesign",
+      "note": "Another Cursor plugin orcstack does not ship"
+    },
+    {
+      "id": "model-slug",
+      "pattern": "\\b(grok|gpt|claude|composer|gemini)-[a-z0-9.-]*\\d",
+      "flags": "i",
+      "kind": "redesign",
+      "note": "Hard-coded model slugs; orcstack inherits the session model"
+    },
+    {
+      "id": "custom-mode",
+      "pattern": "option\\s*\\+\\s*enter|custom mode",
+      "flags": "i",
+      "kind": "redesign",
+      "note": "Cursor custom mode"
+    },
+    {
+      "id": "canvas",
+      "pattern": "\\bcanvas\\b",
+      "flags": "i",
+      "kind": "redesign",
+      "note": "Cursor canvas"
+    },
+    {
+      "id": "file-attachments",
+      "pattern": "file_attachments",
+      "flags": "",
+      "kind": "redesign",
+      "note": "Cursor Task parameter"
+    },
+    {
+      "id": "poteto",
+      "pattern": "\\bpoteto\\b",
+      "flags": "i",
+      "kind": "rewrite",
+      "note": "Upstream voice; rewrite as Orc"
+    },
+    {
+      "id": "pstack",
+      "pattern": "\\bpstack\\b",
+      "flags": "i",
+      "kind": "rewrite",
+      "note": "Upstream product name"
+    },
+    {
+      "id": "cursor",
+      "pattern": "\\bCursor\\b",
+      "flags": "",
+      "kind": "rewrite",
+      "note": "Cursor as the assumed harness"
+    },
+    {
+      "id": "dot-cursor",
+      "pattern": "\\.cursor\\b",
+      "flags": "",
+      "kind": "rewrite",
+      "note": "Cursor paths"
+    },
+    {
+      "id": "mdc",
+      "pattern": "\\.mdc\\b",
+      "flags": "",
+      "kind": "rewrite",
+      "note": "Cursor rule files"
+    },
+    {
+      "id": "cursor-tool-name",
+      "pattern": "\\bAskQuestion\\b|\\bgeneralPurpose\\b|`Task`|inherit-parent|agent-transcripts",
+      "flags": "",
+      "kind": "rewrite",
+      "note": "Cursor tool names that substitutions missed"
+    },
+    {
+      "id": "cursor-builtin-skill",
+      "pattern": "\\bcreate-skill\\b|built-in babysit",
+      "flags": "",
+      "kind": "rewrite",
+      "note": "Cursor built-in skills"
+    }
+  ]
+}

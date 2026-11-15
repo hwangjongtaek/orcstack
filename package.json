@@ -1,0 +1,22 @@
+{
+  "name": "orcstack",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Personal engineering workflow plugin for Claude Code, Codex, oh-my-pi, and opencode. Port of Poteto Stack (pstack) by Lauren Tan.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "validate": "node tools/validate.mjs",
+    "check-no-sdd": "node tools/check-no-sdd.mjs",
+    "tier0": "npm run validate && npm run check-no-sdd && npm run input-gate",
+    "input-gate": "node src/skills/work-brief/scripts/brief.mjs check && node src/skills/adr/scripts/adr.mjs check",
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "check": "npm run tier0 && npm run test",
+    "e2e:install": "node tests/e2e/install-smoke.mjs",
+    "e2e:model": "node tests/e2e/routing.mjs; r=$?; node tests/e2e/gate.mjs || r=1; node tests/e2e/extensions.mjs --case extend || r=1; node tests/e2e/extensions.mjs --case off || r=1; exit $r"
+  }
+}

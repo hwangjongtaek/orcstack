@@ -1,0 +1,30 @@
+# Tier 0 structural gate (docs/philosophy.md §4): every push and PR, budget 2 minutes.
+name: tier0
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tier0-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tier0:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run tier0
+      - name: accepted ADRs are not edited
+        if: github.event_name == 'pull_request'
+        run: node src/skills/adr/scripts/adr.mjs check --base origin/${{ github.base_ref }}

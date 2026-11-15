@@ -1,0 +1,45 @@
+{
+  "$comment": "Ordered, case-sensitive, word-boundary literal renames. Applied to file contents and paths. Lines matching attribution.json are left as is.",
+  "rules": [
+    {
+      "from": "pstack-models.mdc",
+      "to": "orcstack-models.md"
+    },
+    {
+      "from": "poteto-mode-tools",
+      "to": "orc-mode-tools"
+    },
+    {
+      "from": "poteto-mode",
+      "to": "orc-mode"
+    },
+    {
+      "from": "poteto-help",
+      "to": "orc-help"
+    },
+    {
+      "from": "poteto-agent",
+      "to": "orc-agent"
+    },
+    {
+      "from": "setup-pstack",
+      "to": "setup-orcstack"
+    },
+    {
+      "from": "Poteto mode",
+      "to": "Orc mode"
+    },
+    {
+      "from": "Poteto help",
+      "to": "Orc help"
+    },
+    {
+      "from": "Poteto subagent",
+      "to": "Orc subagent"
+    },
+    {
+      "from": "pstack",
+      "to": "orcstack"
+    }
+  ]
+}
