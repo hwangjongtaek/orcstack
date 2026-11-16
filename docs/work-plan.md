@@ -178,7 +178,7 @@ M3와 M4는 M2 이후 병렬로 진행할 수 있다. 같은 파일(`build.mjs`,
 **M5-3 Tier 2 nightly** ✅ ([brief](briefs/m5-3-tier2-nightly.md)) — 전체 테스트, M2-5 headless 스모크, 게이트 e2e(`tests/e2e/gate.mjs`, 가짜 fixture), 확장 e2e(`tests/e2e/extensions.mjs --case extend|off`), 가능한 하네스의 설치 스모크. 실제 Superpowers 확인은 릴리스 변경 시와 분기마다.
 - `.github/workflows/tier2.yml`: 매일 03:00 KST·수동·`risk:high` PR. `check`, 네 하네스 설치 스모크(`tests/e2e/install-smoke.mjs`, drift 보고), model e2e(`routing.mjs`·`gate.mjs`·`extensions.mjs`)는 구독 토큰 `CLAUDE_CODE_OAUTH_TOKEN`(또는 `ANTHROPIC_API_KEY`)으로 주 1회. 로컬은 `npm run e2e:model`.
 - 첫 실행에서 기능 요청 라우팅 결함을 찾았다 → M5-5.
-**M5-4 첫 실제 upstream 갱신** — M5-1이 만든 첫 PR을 처리하며 신규 skill 분류(유지/fork/제외)를 해 본다. 걸린 시간과 충돌 수를 기록한다.
+**M5-4 첫 실제 upstream 갱신** ✅ ([brief](briefs/m5-4-pstack-0-15-42-model-setup.md)) — pstack `0.15.42`(`bf0c7cd`)를 `sync.mjs`로 반영했다. 첫 sync에서 갱신 22개, 추가 1개, 삭제 14개, 충돌 5개를 보고했고, 충돌 해결과 fork 등록 뒤 `--resolved`로 pin을 옮겼다. `setup-orcstack`은 하네스별 모델 카탈로그와 추론 예산을 사용한다.
 **M5-5 기능 요청 라우팅 보강** ✅ ([brief](briefs/m5-5-playbook-routing.md)) — M5-3 라우팅 스모크에서 기능 요청이 `orc-mode`와 게이트까지 간 뒤 `feature.md`와 SSOT 확인 없이 바로 구현했다(2/2, sonnet). orc-mode의 playbook 선택 지시를 보강하고, `routing.mjs --case feature`를 반복 실행해 통과율로 확인한다.
 - 원인: 게이트의 "SSOT 없는 저장소는 Do the task"가 남은 절차를 건너뛰라는 뜻으로 읽혔다. 게이트 뒤 playbook 단계를 명시했다. 반복 측정: 기능 0/3 → 4/5, 리팩터링 2/3 → 5/5. 버그·질문·끄기는 회귀 없음.
 **M5-6 synapse-backend 적용 피드백** ✅ ([brief](briefs/m5-6-backend-feedback.md)) (2026-11-06, 소유자가 직접 설치하며 전달). GitHub 이슈로 올리려 했지만 작업 토큰에 이 저장소의 issues 권한이 없어 여기 기록한다.

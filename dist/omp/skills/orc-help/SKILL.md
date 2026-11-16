@@ -36,12 +36,12 @@ Check the state that changes the answer, and mention it only when it does:
 ## Get set up
 
 1. Install orcstack for this harness. The orcstack README's install table has the command for Claude Code, Codex, oh-my-pi, and opencode.
-2. Optionally run [`/setup-orcstack`](../setup-orcstack/SKILL.md). Every role runs on the session model until then. It writes ``~/.omp/agent/orcstack-models.md`` with a model per role, then offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.
+2. Optionally run [`/setup-orcstack`](../setup-orcstack/SKILL.md). It writes ``~/.omp/agent/orcstack-models.md`` with this harness's models and a reasoning budget, then offers verification skills when the project lacks them.
 3. Start a real task with `/orc-mode`, a goal, and a check that can pass or fail.
 
 orcstack routes new tasks through `/orc-mode` on its own through the orcstack routing block in `AGENTS.md`. Set `ORCSTACK_AUTO_ACTIVATE=0` to turn that off and start each task by hand. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
-If cost is the worry, say where the tokens go and how to spend fewer. orcstack spends extra tokens on subagents and review panels. Rerun `/setup-orcstack` and pick cheaper models for the busy roles. A role set to `auto` or `inherit` runs on the session model. A shorter panel list runs fewer subagents, one for each entry. Save `/orc-mode` for work that needs rigor.
+If cost is the worry, say where the tokens go and how to spend fewer. orcstack spends extra tokens on subagents and review panels. Rerun `/setup-orcstack` and pick a smaller budget, cheaper models, or a shorter panel list. A role set to `auto` or `inherit` runs on the session model. Save `/orc-mode` for work that needs rigor.
 
 ## Start a task with `/orc-mode`
 

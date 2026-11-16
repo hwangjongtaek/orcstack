@@ -1,7 +1,7 @@
 # orcstack Planning SSOT
 
 - 소유자: orcstack maintainer
-- 최종 변경: 2026-11-15. §8 bootstrap 의도 추가
+- 최종 변경: 2026-11-16. §3 하네스별 모델 설정과 F7·C8 추가
 - 변경 규칙: 의도가 바뀌면 구현 전에 이 문서를 먼저 고치고 소유자 승인을 받는다. brief는 이 문서의 절 번호(`SSOT §n`)를 참조한다.
 
 ## §1 목적
@@ -25,6 +25,7 @@ Claude Code, Codex, oh-my-pi, opencode를 1급으로 지원한다. Cursor 전용
 
 - 하네스별 설치·호출·라우팅은 [boilerplate-plan 6절](../boilerplate-plan.md#6-하네스별-제공-방식)을 따른다.
 - 하네스에 없는 능력은 건너뛰지 않고 선언된 대체 경로로 내려간다.
+- 모델 설정은 하네스별 사용자 파일에 둔다. `setup-orcstack`은 Claude Code, Codex, oh-my-pi에서 각각 확인한 모델만 해당 하네스 파일에 기록하며, 다른 하네스의 모델 식별자를 재사용하지 않는다.
 
 ## §4 기능 범위
 
@@ -36,6 +37,7 @@ Claude Code, Codex, oh-my-pi, opencode를 1급으로 지원한다. Cursor 전용
 | F4 | `adopt-orcstack` 컷오버 | SDD·Spec Kit·Superpowers를 쓰던 저장소가 마일스톤 경계에서 전환되고, 재유입이 Tier 0에서 막힌다 |
 | F5 | 오크 화자와 포팅 출처 명시 | 사용자 노출 문구가 오크 화자이고, pstack과 Lauren Tan 출처가 항상 남는다 |
 | F6 | 프로젝트별 선별 사용과 확장 | 프로젝트가 orcstack 플러그인을 고치지 않고 맞지 않는 skill·playbook을 끄거나, 특정 항목을 자기 규칙으로 확장·대체하거나, 프로젝트 전용 playbook을 더할 수 있다. orcstack을 갱신해도 그 설정이 유지된다 |
+| F7 | 하네스별 모델과 추론 예산 설정 | `setup-orcstack`을 각 하네스에서 실행하면 그 하네스가 선택할 수 있는 모델만 역할별 설정에 기록된다 |
 
 ## §5 비목표
 
@@ -56,6 +58,7 @@ Claude Code, Codex, oh-my-pi, opencode를 1급으로 지원한다. Cursor 전용
 | C5 | orcstack-governed 저장소에 다른 프레임워크 산출물이 새로 생기지 않는다 | 진실의 원천이 둘이 된다 |
 | C6 | `dist/`는 `src/` × `harness/`의 빌드 결과와 항상 같다 | 설치본이 소스와 다르게 동작한다 |
 | C7 | 프로젝트의 확장·대체·비활성화 설정은 orcstack 갱신으로 덮이지 않고, 끈 항목은 라우팅되지 않는다 | 갱신할 때마다 프로젝트 맞춤이 사라지거나, 맞지 않는 playbook이 다시 실행된다 |
+| C8 | 하네스별 모델 설정은 분리되고, 실제 모델 식별자는 해당 하네스에서 사용 가능하다고 확인한 값이어야 한다 | 다른 공급자의 모델이 선택되어 하위 에이전트 실행이 실패한다 |
 
 ## §7 결정 기록
 
@@ -76,3 +79,4 @@ Claude Code, Codex, oh-my-pi, opencode를 1급으로 지원한다. Cursor 전용
 - orcstack 진입점은 `orc-mode`다. 공통 이름의 skill도 반드시 선택된 패키지 안에서 읽는다.
 - 공유 변경은 orcstack에서 dstack 명칭으로 변환한 변경 묶음으로 전달한다. dstack에는 orcstack 이름, 링크, remote, 자동 수신 설정을 넣지 않는다. dstack의 회사 문서, 자산, 소유권 설정과 별도 수정은 보존한다.
 - 내보내기는 대상 저장소를 수정하지 않는다. 출력 전체를 검사하며 검토와 적용은 별도 단계다.
+- orcstack 문서에는 `wiki.orchwang.dev`의 원본 링크를 자유롭게 포함한다. dstack의 독립 배포 조건을 orcstack 문서의 출처 링크 제한으로 해석하지 않는다. 원본 위키 글은 [사용자가 지정한 글](https://wiki.orchwang.dev/2026/11/03/tdd-ratchet-lightweight-ci-pstack.html)이다.

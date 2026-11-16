@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-16
+
+upstream: pstack 0.15.42 (`bf0c7cd`)
+
+### Changed
+
+- upstream pstack `0.15.42`(`bf0c7cd`)를 반영했다. `how`·`why` 단순화, statechart 수정, 역할별 모델 기본값 갱신을 orcstack의 네 하네스에 맞게 포팅했다.
+- `setup-orcstack`이 추론 예산을 저장하고, Claude Code·Codex·oh-my-pi에서 각각 확인한 모델만 서로 분리된 사용자 파일에 기록한다.
+
 ### Bootstrap
 
 - dstack 0.1.1 기준으로 개인 프로젝트용 orcstack을 구성했다. `orc-mode` 진입점과 제공 PNG를 사용한다.

@@ -1,52 +1,65 @@
 ---
 name: setup-orcstack
-description: Configure which model orcstack uses for each role. Detects the models available in this session and writes the orcstack model sheet that the skills read when they spawn subagents. Use for /setup-orcstack, "configure orcstack models", or changing orcstack's model choices.
+description: Configure which models orcstack uses per role and the reasoning budget for subagents. Detects models available in the current harness and writes that harness's orcstack model sheet. Use for /setup-orcstack, "configure orcstack models", "orcstack budget", or changing orcstack's model choices.
 ---
 
 # Setup orcstack
 
-Write `{{model-sheet}}`, the file that sets orcstack's model per role. Without it, every role runs on the session model.
+Write `{{model-sheet}}`, the current harness's model and reasoning-budget configuration. Without it, every role runs on the session model.
 
 ## Steps
 
 ### 1. Detect available models
 
-List the model identifiers you can pass to {{spawn-subagent}} in this session. That is the dependable source. If you cannot detect any, ask the user to paste the identifiers they have access to. Never write an identifier you have not confirmed is available. The aliases `inherit` and `auto` are always valid: both mean the role runs on the session model.
+List the exact model identifiers accepted by {{spawn-subagent}} in this session. Prefer the harness's model catalog or CLI when it exposes the user's entitled models. Never copy identifiers from another harness's model sheet. If no source can enumerate them, ask the user to paste the identifiers they can select.
+
+Never write an identifier you have not confirmed is available. The aliases `inherit` and `auto` are always valid. Both run the role on the session model.
 
 ### 2. Load current state
 
-If `{{model-sheet}}` exists, read it and treat its role values as the current choices. Otherwise every role starts at `inherit`. A line whose role is not in step 5 is from a retired role. Drop it.
+The default role mapping is the shape in step 5, and the default budget is `large`. If `{{model-sheet}}` exists, read its `# budget` line and role values as the current choices.
 
-### 3. Map and confirm
+A sheet without `# defaults: 2` comes from an older setup. Keep a value only when the current harness still reports it. Replace unavailable values with `inherit`. Drop retired roles, including `how explorer`, `how explainer`, `why investigators`, and `why synthesizer`. Tell the user which values changed.
 
-Show every role from step 5 with its current value, and list each line step 2 dropped. Ask through {{ask-user}} whether to keep the table or change specific roles, offering the detected models plus `inherit` and `auto`.
+### 3. Budget, map, and confirm
 
-- Implementation roles (`feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, `how explorer`, `why investigators`, `reflect tooling`, `swarm workers`) do a lot of reading and editing. A faster model fits them.
-- Judgment roles (`judgment and prose`, `hardest tasks`, `how explainer`, `why synthesizer`, `reflect judgment, divergent, synthesizer`) decide and write. The strongest available model fits them.
-- Panel roles (`arena runners`, `architect runners`, `interrogate reviewers`) take a list. One subagent runs per entry, alias entries included, so the list length sets the count. Different models in one list give the panel different views.
-- `arena cross-judge pool` is also a list, but Arena runs one judge. It tries values from a family other than the parent's, in list order, so order it by preference. An `inherit` or `auto` value never judges.
+Ask through {{ask-user}} for one budget:
+
+- `unlimited` uses max reasoning.
+- `large` uses xhigh reasoning.
+- `medium` uses high reasoning.
+- `small` uses medium reasoning.
+
+Use the chosen level as the normal target. `hardest tasks` starts one level higher, up to max. `reflect tooling` and `swarm workers` start one level lower, down to low. A harness may expose effort as a separate control or as part of a model identifier. Use only controls and identifiers the harness reports. Do not invent an effort-suffixed identifier.
+
+Show every role from step 5 with its current value. Mark any real identifier outside the detected set as needing a choice. Offer only detected identifiers plus `inherit` and `auto`.
+
+- Implementation roles (`feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, `reflect tooling`, `swarm workers`) favor a fast coding model.
+- Judgment roles (`judgment and prose`, `hardest tasks`, `reflect judgment, divergent, synthesizer`) favor the strongest model.
+- Panel roles (`arena runners`, `architect runners`, `interrogate reviewers`) are lists. One subagent runs per entry, including aliases. Different model families give the panel different views.
+- `arena cross-judge pool` is a preference list for one judge from a different model vendor. An `inherit` or `auto` entry never judges.
+
+On a rerun, keep the user's model families, list lengths, and aliases. Change only invalid identifiers or choices the user asks to change.
 
 ### 4. Validate
 
-Every identifier written must be in the detected set. `inherit` and `auto` always pass. If a chosen identifier is not available, stop and ask again.
+Every real identifier must be in the current harness's detected set. `inherit` and `auto` always pass. If a value is unavailable, stop and ask again.
 
 ### 5. Write the sheet
 
-Write `{{model-sheet}}` with one line per role, using the same labels the skills use. Overwrite the whole file so re-runs stay idempotent. Shape:
+Overwrite `{{model-sheet}}` with the selected budget and one line per current role. Re-running the skill must produce the same file for the same choices.
 
 ```
-# orcstack model sheet. One line per role. Delete a line to fall back to `inherit`.
-# `inherit` or `auto`: the role runs on the session model. Alias entries in a panel list still count toward its fan-out.
+# orcstack model configuration. One line per role.
+# `inherit` or `auto` runs the role on the session model. Alias entries in a panel list still count toward its fan-out.
+# defaults: 2
+# budget: large (xhigh)
 feature, refactoring: inherit
 bug-fix: inherit
 perf-issue: inherit
 hillclimb: inherit
 judgment and prose: inherit
 hardest tasks: inherit
-how explorer: inherit
-how explainer: inherit
-why investigators: inherit
-why synthesizer: inherit
 reflect tooling: inherit
 reflect judgment, divergent, synthesizer: inherit
 arena runners: inherit, inherit
@@ -58,12 +71,12 @@ interrogate reviewers: inherit, inherit
 
 ### 6. Confirm
 
-Tell the user the sheet was written and that skills read it each time they spawn, so the next spawn uses it. Re-running this skill updates it.
+Tell the user which harness sheet was written. Skills read it each time they spawn, so the next spawn uses it. Re-running this skill updates it.
 
-### 7. Offer a verification skill (optional)
+### 7. Offer a verification skill
 
-Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /create-verification-skill." On yes, run `/create-verification-skill`. On no, move on without pushing.
+If the project has no `verify-*` skill or existing way to drive the real app, offer once to run `/create-verification-skill`. On no, move on.
 
-### 8. Offer a formal verification skill (optional)
+### 8. Offer a formal verification skill
 
-Check whether the project already has a formal verification skill (a project skill that runs a model checker, a proof, or another verifier against the code). If not, offer once: "want a formal verification skill, so agents can prove a key property of your code holds in every case in scope, not only the cases tests reach? I can generate one with /create-formal-verification-skill." On yes, run `/create-formal-verification-skill`. On no, move on without pushing.
+If the project has no project skill that runs a model checker, proof, or other verifier, offer once to run `/create-formal-verification-skill`. On no, move on.

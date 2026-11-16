@@ -15,7 +15,7 @@ orcstack은 개인 프로젝트에서 AI 코딩 에이전트(Claude Code, Codex,
 
 이렇게 하면 에이전트가 무엇을 왜 바꿨는지 사람이 나중에 다시 찾을 수 있다.
 
-> **상태:** bootstrap 기준 버전 `0.1.1`. orcstack 원격 릴리스는 아직 게시하지 않았다. dstack 0.1.1을 기준으로 부트스트랩했다. 이번 변경의 검증 범위는 [bootstrap brief](docs/briefs/bootstrap.md)에 기록한다. 설치에는 `hwangjongtaek/orcstack` 저장소 접근 권한이 필요하다. 바뀐 내용은 [CHANGELOG](CHANGELOG.md)에 있다.
+> **상태:** 현재 릴리스는 `0.2.0`이며 upstream pstack `0.15.42`를 기준으로 한다. 이번 릴리스의 검증 범위는 [0.2.0 release brief](docs/briefs/release-0-2-0.md)에 기록한다. 설치에는 `hwangjongtaek/orcstack` 저장소 접근 권한이 필요하다. 바뀐 내용은 [CHANGELOG](CHANGELOG.md)에 있다.
 
 ## 개인 프로젝트와 회사 프로젝트
 
@@ -97,6 +97,18 @@ node tools/orcstack.mjs verify --target ~/work/my-project
 ## 코딩 에이전트별 세팅
 
 공통 준비: `hwangjongtaek/orcstack` 읽기 권한과, 그 계정으로 된 Git 로그인(`gh auth login` 또는 SSH 키)이 필요하다. 하네스가 비공개 저장소를 받아 올 때 이 로그인을 쓴다.
+
+### 역할별 모델 설정
+
+`setup-orcstack`은 실행 중인 하네스가 선택할 수 있는 모델만 그 하네스의 사용자 파일에 기록한다. 한 파일을 다른 하네스로 복사하지 않는다.
+
+| 하네스 | 호출 | 설정 파일 | 모델 확인 |
+|---|---|---|---|
+| Claude Code | `/orcstack:setup-orcstack` | `~/.claude/orcstack-models.md` | Claude Code 모델 카탈로그와 `Agent`가 받는 식별자 |
+| Codex | `$setup-orcstack` | `~/.codex/orcstack-models.md` | `codex debug models`와 `spawn_agent`가 받는 식별자 |
+| oh-my-pi | `/skill:setup-orcstack` | `~/.omp/agent/orcstack-models.md` | `omp models --json`과 `task`가 받는 식별자 |
+
+설정은 `unlimited`, `large`, `medium`, `small` 추론 예산과 역할별 모델을 함께 저장한다. 다시 실행하면 현재 선택을 읽고 유효하지 않은 모델만 바꾼다.
 
 ### Claude Code
 
@@ -213,5 +225,7 @@ SSOT에 없는 의도가 필요하면 구현 전에 SSOT 소유자의 승인을 
 - [Planning SSOT](docs/planning/SSOT.md), [ADR](docs/adr/), [작업 계획](docs/work-plan.md): orcstack 자체의 의도, 결정, 진행 상황
 
 ## 출처
+
+운영 원칙의 배경은 [원본 위키 글](https://wiki.orchwang.dev/2026/11/03/tdd-ratchet-lightweight-ci-pstack.html)에서 볼 수 있다. orcstack 문서에서는 위키 원본 링크를 자유롭게 포함한다.
 
 orcstack은 [Poteto Stack (pstack)](https://github.com/cursor/plugins/tree/main/pstack)을 orcstack에 맞게 옮긴 것이다. pstack은 Lauren Tan([@poteto](https://github.com/poteto))의 프로젝트이고 MIT 라이선스다. 작업 분류와 검증 중심 접근은 pstack에서 왔다. TDD 래칫, 비용을 고려한 CI, 지식 보존 원칙, 프로젝트 전환 도구는 orcstack이 더했다. 자세한 내용은 [LICENSE](LICENSE)와 [NOTICE.md](NOTICE.md)에 있다.
