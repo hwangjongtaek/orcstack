@@ -150,7 +150,7 @@ Each live lane runs in its own isolated worktree at the PR head. Drive it throug
 
 ## Appendix D. Links and reading list
 
-<Docs to read before editing. Which PRs get `orcstack/skills/how/SKILL.md` and `orcstack/skills/interrogate/SKILL.md`. The trail per `orcstack/skills/show-me-your-work/SKILL.md`.>
+<Docs to read before editing. Which PRs get `orcstack/skills/interrogate/SKILL.md`. The trail per `orcstack/skills/show-me-your-work/SKILL.md`.>
 ````
 
 **Reply:** the plan path, the PR ids with their dependencies and the review-gated set, what the prototypes proved and what stays unproven, and the check script's output.

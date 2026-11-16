@@ -24,6 +24,25 @@ test("tokens in Markdown render per harness; other files are copied as is", () =
   assert.equal(text(claude, "skills/a/run.ts"), "// {{spawn-subagent}}");
 });
 
+test("setup skill renders a harness-local model sheet without foreign defaults", () => {
+  const source = readFileSync(join(REPO, "src/skills/setup-orcstack/SKILL.md"), "utf8");
+  const sheets = new Map([
+    ["claude-code", "~/.claude/orcstack-models.md"],
+    ["codex", "~/.codex/orcstack-models.md"],
+    ["omp", "~/.omp/agent/orcstack-models.md"],
+  ]);
+  assert.equal(new Set(sheets.values()).size, sheets.size);
+  for (const [name, sheet] of sheets) {
+    const files = buildHarness(tree({ "skills/setup-orcstack/SKILL.md": source }), harness(name), opts);
+    const rendered = text(files, "skills/setup-orcstack/SKILL.md");
+    assert.ok(rendered.includes(sheet), `${name} setup must use ${sheet}`);
+    assert.match(rendered, /# defaults: 2/);
+    assert.match(rendered, /unlimited.*max reasoning[\s\S]*large.*xhigh reasoning[\s\S]*medium.*high reasoning[\s\S]*small.*medium reasoning/);
+    assert.doesNotMatch(rendered, /^how explorer:|^how explainer:|^why investigators:|^why synthesizer:/m);
+    assert.doesNotMatch(rendered, /claude-(?:opus|fable|sonnet|haiku)-\d|gemini-\d|gpt-\d/);
+  }
+});
+
 test("an unknown token fails with its location", () => {
   const src = tree({ "skills/a/SKILL.md": "ok\nuse {{teleport}}" });
   assert.throws(() => buildHarness(src, harness("claude-code"), opts), /skills\/a\/SKILL\.md:2: unknown capability \{\{teleport\}\}/);

@@ -8,6 +8,18 @@
       "ssot": "\u00a73"
     },
     {
+      "path": "skills/architect/SKILL.md",
+      "reason": "Uses the current harness model twice when no architect panel is configured instead of Cursor-specific model defaults.",
+      "since": "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7",
+      "ssot": "\u00a73, \u00a74 F7, \u00a76 C8"
+    },
+    {
+      "path": "skills/arena/SKILL.md",
+      "reason": "Uses harness-local model defaults and classifies provider-qualified model identifiers without Cursor-specific Claude and Gemini fallbacks.",
+      "since": "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7",
+      "ssot": "\u00a73, \u00a74 F7, \u00a76 C8"
+    },
+    {
       "path": "skills/orc-help/SKILL.md",
       "reason": "Rewritten as Orc for four harnesses: no Custom Mode, Cursor install, excluded skills, or guide links; adds the attribution line and the mixed-framework check. Lists the orcstack skills (adopt-orcstack, work-brief, adr, contract-inventory, cold-start-review, ci-tiers, test-audit).",
       "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
@@ -99,19 +111,13 @@
     },
     {
       "path": "skills/setup-orcstack/SKILL.md",
-      "reason": "Rewritten for a plain model sheet read by skills: no Cursor rule file, budget ladder, or grok/claude slug defaults; every role defaults to inherit (ADR-0002 D4).",
+      "reason": "Carries the upstream budget and defaults-v2 contract, but writes a harness-local plain model sheet with only detected identifiers and no provider-specific defaults.",
       "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
-      "ssot": "\u00a73, ADR-0002 D4"
+      "ssot": "\u00a73, \u00a74 F7, \u00a76 C8, ADR-0002 D4"
     },
     {
       "path": "skills/swarm/SKILL.md",
       "reason": "Workers run in isolated worktrees instead of Cursor cloud environments.",
-      "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
-      "ssot": "\u00a73"
-    },
-    {
-      "path": "skills/why/SKILL.md",
-      "reason": "MCP discovery no longer assumes Cursor's mcps/ directory.",
       "since": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
       "ssot": "\u00a73"
     },

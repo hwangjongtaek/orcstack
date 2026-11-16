@@ -1,6 +1,6 @@
 {
   "name": "orcstack",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Personal engineering workflow: one entry point (orc-mode) that routes work to playbooks, with Planning SSOT, work briefs, ADRs, ratcheting tests, and tiered CI. Port of Poteto Stack (pstack) by Lauren Tan.",
   "author": {
     "name": "orcstack"
