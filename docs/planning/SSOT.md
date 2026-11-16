@@ -1,7 +1,7 @@
 # orcstack Planning SSOT
 
 - 소유자: orcstack maintainer
-- 최종 변경: 2026-11-16. §3 하네스별 모델 설정과 F7·C8 추가
+- 최종 변경: 2026-11-16. §3 하네스별 설치·호출·라우팅·업데이트 안내와 모델 설정 명시
 - 변경 규칙: 의도가 바뀌면 구현 전에 이 문서를 먼저 고치고 소유자 승인을 받는다. brief는 이 문서의 절 번호(`SSOT §n`)를 참조한다.
 
 ## §1 목적
@@ -23,7 +23,7 @@ orcstack 엔지니어가 AI 코딩 에이전트와 일할 때 **하나의 운영
 
 Claude Code, Codex, oh-my-pi, opencode를 1급으로 지원한다. Cursor 전용 기능에 의존하지 않는다.
 
-- 하네스별 설치·호출·라우팅은 [boilerplate-plan 6절](../boilerplate-plan.md#6-하네스별-제공-방식)을 따른다.
+- 하네스별 설치·호출·라우팅·업데이트는 [boilerplate-plan 6절](../boilerplate-plan.md#6-하네스별-제공-방식)을 따른다.
 - 하네스에 없는 능력은 건너뛰지 않고 선언된 대체 경로로 내려간다.
 - 모델 설정은 하네스별 사용자 파일에 둔다. `setup-orcstack`은 Claude Code, Codex, oh-my-pi에서 각각 확인한 모델만 해당 하네스 파일에 기록하며, 다른 하네스의 모델 식별자를 재사용하지 않는다.
 

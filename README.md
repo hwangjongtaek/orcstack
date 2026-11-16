@@ -85,18 +85,30 @@ node tools/orcstack.mjs verify --target ~/work/my-project
 
 `"ok": true`가 나오면 컷오버 PR을 머지한다. `awaiting`에 남은 항목은 아직 승인하지 않은 결정이다. 그동안 대상 저장소의 CI guard는 실패한다.
 
-**5. 팀 설치와 갱신.**
-
-- 팀원은 1번 명령으로 각자 설치한다.
-- orcstack을 새 버전으로 올린 뒤에는 대상 저장소의 guard와 이름 목록을 다시 받아 커밋한다. 플러그인 갱신만으로는 대상 저장소의 파일이 바뀌지 않는다.
-
-  ```bash
-  node tools/orcstack.mjs adopt guard --target ~/work/my-project
-  ```
+**5. 팀 설치와 갱신.** 팀원은 1번 명령으로 각자 설치한다. 새 버전 적용과 대상 프로젝트 파일 반영은 [orcstack 업데이트](#orcstack-업데이트)를 따른다.
 
 ## 코딩 에이전트별 세팅
 
 공통 준비: `hwangjongtaek/orcstack` 읽기 권한과, 그 계정으로 된 Git 로그인(`gh auth login` 또는 SSH 키)이 필요하다. 하네스가 비공개 저장소를 받아 올 때 이 로그인을 쓴다.
+
+### orcstack 업데이트
+
+먼저 사용하는 하네스의 설치본을 업데이트한다.
+
+| 하네스 | 실행 위치 | 명령 | 마무리 |
+|---|---|---|---|
+| Claude Code | 어느 디렉터리에서나 | `claude plugin marketplace update orcstack`<br>`claude plugin update orcstack@orcstack` | 두 명령 뒤 Claude Code 재시작 |
+| Codex | 어느 디렉터리에서나 | `codex plugin marketplace upgrade`<br>`codex plugin add orcstack@orcstack` | 설치본이 복사본이므로 두 번째 명령으로 다시 설치 |
+| oh-my-pi | orcstack을 프로젝트 범위로 설치한 대상 프로젝트 디렉터리 | `omp plugin upgrade` | 없음 |
+| opencode | 클론한 orcstack 저장소 | `git pull` | 기존 `~/.config/opencode/skills/orcstack` 링크는 같은 `dist/opencode/skills`를 가리키므로 다시 만들 필요 없음 |
+
+그다음 최신 orcstack 저장소에서 대상 프로젝트 파일을 반영하고 커밋한다. 플러그인 설치본 업데이트만으로는 프로젝트에 커밋된 guard와 이름 목록이 바뀌지 않는다.
+
+```bash
+node tools/orcstack.mjs adopt guard --target ~/work/my-project
+```
+
+`setup-orcstack`은 역할별 모델 사용자 설정이며 플러그인 업데이트와 별개다.
 
 ### 역할별 모델 설정
 
@@ -119,7 +131,6 @@ claude plugin install orcstack@orcstack
 
 - **호출:** `/orcstack:orc-mode`. 보통은 부를 필요가 없다. 세션 시작 훅이 코드나 문서를 바꾸는 작업이면 `orc-mode`를 먼저 불러오라고 알린다.
 - **끄기:** 환경 변수 `ORCSTACK_AUTO_ACTIVATE=0`.
-- **갱신:** `claude plugin marketplace update orcstack`, 이어서 `claude plugin update orcstack@orcstack`.
 - **제거:** `claude plugin uninstall orcstack@orcstack`.
 
 ### Codex
@@ -136,7 +147,6 @@ codex plugin add orcstack@orcstack
   2. "Hooks need review"가 뜨면 **Review hooks**를 고른다.
   3. `SessionStart`에서 출처가 `Plugin - orcstack@orcstack`인 훅을 확인하고 `t`로 신뢰한다.
   - orcstack이 훅을 바꾸는 릴리스를 내면 다시 신뢰해야 한다.
-- **갱신:** 설치본은 복사본이다. `codex plugin marketplace upgrade` 뒤 `codex plugin add orcstack@orcstack`를 다시 실행한다.
 - **제거:** `codex plugin remove orcstack@orcstack`.
 
 ### oh-my-pi
@@ -151,7 +161,6 @@ omp plugin install orcstack-omp@orcstack --scope=project
 - `orcstack-omp`는 omp 도구 이름으로 만든 빌드다. Claude Code용 `orcstack`을 설치하지 않는다.
 - **호출:** `/skill:orc-mode`, 또는 자연어.
 - **라우팅:** omp는 훅을 실행하지 않는다. 프로젝트 `AGENTS.md`의 orcstack 블록이 라우팅한다.
-- **갱신:** `omp plugin upgrade`.
 - **제거:** `omp plugin uninstall orcstack-omp@orcstack`.
 
 ### opencode
@@ -169,7 +178,6 @@ node tools/orcstack.mjs install --harness opencode --apply   # 링크를 만든�
 - **호출:** `skill` 도구, 또는 자연어.
 - **라우팅:** opencode에는 훅이 없다. 프로젝트 `AGENTS.md`의 orcstack 블록이 라우팅한다.
 - **모델:** 강한 모델을 권장한다. 무료 경량 모델은 게이트 단계를 건너뛴 기록이 있다.
-- **갱신:** 클론한 저장소에서 `git pull`.
 - **제거:** 링크 `~/.config/opencode/skills/orcstack`를 지운다.
 
 다른 하네스도 `node tools/orcstack.mjs install --harness <claude-code|codex|omp>`로 위 명령을 다시 볼 수 있다. 이 도구는 Claude Code·Codex·omp의 명령을 직접 실행하지 않는다. 사용자 설정을 바꾸는 명령이라 사람이 실행한다.
