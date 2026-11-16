@@ -13,8 +13,8 @@ upstream pstack `0.15.42`를 sync 도구로 받아 `0.15.36` 이후의 모델 �
 | # | 기대 결과 | 금지 결과 | 증거 |
 |---|---|---|---|
 | A1 | pin이 pstack `0.15.42`의 `bf0c7cd`로 이동하고 `src/`와 `dist/`가 같은 내용으로 갱신된다 | pin 수동 편집, 충돌 마커, 낡은 `dist/` | 🔒 `tests/sync-cli.test.mjs`, `tests/build.test.mjs`, `npm run check` |
-| A2 | `setup-orcstack`이 `unlimited`, `large`, `medium`, `small` 예산과 현재 역할 목록을 쓰며, 다시 실행해도 같은 선택은 유지된다 | Cursor 전용 모델을 다른 하네스 기본값으로 기록, 은퇴한 역할 유지 | 🔒 contract `tests/model-setup.test.mjs` |
-| A3 | Claude Code, Codex, oh-my-pi 설정이 서로 다른 사용자 파일에 저장되고 실제 모델 값은 해당 하네스 카탈로그에서 확인한 값이다 | 한 설정 파일 공유, 다른 공급자의 모델 식별자 혼입 | 🔒 build `tests/model-setup.test.mjs` + 📎 세 사용자 파일을 각 모델 카탈로그와 대조 |
+| A2 | `setup-orcstack`이 `unlimited`, `large`, `medium`, `small` 예산과 현재 역할 목록을 쓰며, 다시 실행해도 같은 선택은 유지된다 | Cursor 전용 모델을 다른 하네스 기본값으로 기록, 은퇴한 역할 유지 | 🔒 contract `tests/build.test.mjs` |
+| A3 | Claude Code, Codex, oh-my-pi 설정이 서로 다른 사용자 파일에 저장되고 실제 모델 값은 해당 하네스 카탈로그에서 확인한 값이다 | 한 설정 파일 공유, 다른 공급자의 모델 식별자 혼입 | 🔒 build `tests/build.test.mjs` + 📎 세 사용자 파일을 각 모델 카탈로그와 대조 |
 | A4 | upstream 변경 범위와 첫 실제 sync 결과가 CHANGELOG와 작업 기록에서 복원된다 | 버전만 바뀌고 무엇을 가져왔는지 알 수 없음 | 📎 CHANGELOG와 `docs/work-plan.md` 확인 |
 
 ## 범위 밖
