@@ -4,9 +4,9 @@
   "subdir": "pstack",
   "ref": "main",
   "pin": {
-    "commit": "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7",
-    "version": "0.15.42",
-    "date": "2026-11-14"
+    "commit": "7a583913eb1b8d1a0ee76753d1a2cf072e7b54f9",
+    "version": "0.15.46",
+    "date": "2026-11-21"
   },
   "exclude": [
     "skills/ketchup/**",

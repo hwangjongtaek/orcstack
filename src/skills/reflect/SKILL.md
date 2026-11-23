@@ -15,7 +15,6 @@ Keep a finding only if it will still hold in six months, would change what a fut
 Present Accepted (problem, proposal, skill), Rejected (reason) and Backlog, and wait for approval before editing any skill.
 
 Never edit a skill under `plugins/cache/`. Before approval, show its destination, `{{skill-dir}}<skill>/` or `{{skill-dir}}<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
-<<<<<<< orcstack
 
 Follow each approved row's Routing exactly:
 
@@ -25,14 +24,3 @@ Follow each approved row's Routing exactly:
 - `new skill: <kebab-name>`: hand creation to the same playbook. Do not invent the shape ad hoc.
 
 If your environment ships a SKILL.md validator, run it on every touched skill before declaring done.
-
-## 6. Summarize for the user
-
-Short list, no preamble:
-
-- Edits applied: `<skill path>`. What changed, one line each.
-- New skills created: `<skill path>`. One line each (rare).
-- Backlog filed to the devex tracker: `<issue title>` (`<tags>`). One line each.
-- Dropped: one line per rejected finding + reason from the synthesizer.
-=======
->>>>>>> upstream
