@@ -7,7 +7,7 @@ orcstack은 Poteto Stack(pstack)의 파생 프로젝트다.
 - 저작자: Lauren Tan ([@poteto](https://github.com/poteto))
 - 원본: https://github.com/cursor/plugins/tree/main/pstack
 - 라이선스: MIT. 전문은 [`LICENSE`](LICENSE) 하단에 있다.
-- 기준 버전: pstack 0.15.42, `cursor/plugins` 커밋 `bf0c7cd`
+- 기준 버전: pstack 0.15.46, `cursor/plugins` 커밋 `7a58391`
 
 파생 범위는 `sync/upstream.json`의 pin과 exclude 목록이 정한다. 이름(`poteto-mode` → `orc-mode` 등)과 Cursor 전용 표현은 파생 과정에서 바뀌며, 의도적으로 다르게 고친 파일은 `sync/forks.json`에 이유와 함께 기록한다.
 
