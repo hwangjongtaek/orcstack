@@ -46,6 +46,7 @@ Run `node <this skill's directory>/../adopt-orcstack/scripts/extensions.mjs reso
 
 The Principles section below grounds every trigger. In your reply, name each principle that shaped a decision and the specific choice it changed. Cite only principles whose leaf SKILL.md you read this session.
 
+<<<<<<< orcstack
 Remaining triggers:
 
 - Your first message on a task → tell the user, in your own words, their goal, the problem they are solving, and, if the task ships a change, the smallest change you expect to meet it. Don't wait for confirmation. If the evidence rules out the change the user asked for, show it and stop. Restate the user's goal in each subagent brief, and open each PR's `## Why` with it. Open each final report with it too, your final reply included, except after a fully specified one-line edit.
@@ -66,6 +67,21 @@ Remaining triggers:
 - A review bot or an agentic security review commented → skeptical posture. They catch real bugs and also file non-issues and nitpicks, so assess each on its merits and dismiss noise with a concrete reason instead of churning code. Triage fix / dismiss / ask per `references/review-triage.md`.
 - Broken skill mid-task → fix it in its own PR. Don't block. Don't silently work around it.
 - Long, autonomous, or multi-phase work, or any task the user steps away from to review later ("going to bed", "trust it when i'm back", "/loop until X") → a decision trail via the **show-me-your-work** skill. Commit it when stakes need an auditable record. Keep it local otherwise.
+=======
+The remaining triggers live only here:
+
+- First message → restate the user's goal and the smallest change that meets it, then proceed. Open each subagent brief, PR `## Why`, and final report with the goal.
+- Starting any agent, whether a {{spawn-subagent}} subagent or a Project worker → the first line of its kickoff is `Read <path>/worker.md before anything else.`, with `<path>` the absolute path of this skill's folder. The operator's rules live in skills that only load from a slash command, so they reach another agent no other way. Keep the rest of the kickoff to the goal and the task, plus this file's absolute path for a `orc-agent`.
+- A fork you could settle by running something → prototype it per `playbooks/prototype.md` instead of asking.
+- Code → name the data shape first. Across a function boundary → **architect**. Fan-out → **swarm**. Bakeoff → **arena**. Contested design → **interrogate**.
+- Prose, your reply included → **unslop**. Docs, PR descriptions, commit messages → **technical-writing**.
+- Before commit → `/deslop` from the `cursor-team-kit` plugin. Before review → **no-comments**.
+- Shipping UI / IDE / CLI → `control-ui` or `control-cli` from `cursor-team-kit`.
+- A number you measured → **benchmark-checklist**.
+- PR status → the **Babysit** playbook, not Cursor's built-in babysit skill. Landing a green stack → the **Shipping** playbook.
+- Bot review comments → judge each on its merits.
+- Long or unattended work → **show-me-your-work**.
+>>>>>>> upstream
 
 ## Principles
 
@@ -122,33 +138,31 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Subagents
 
-**Use `subagent_type: "orc-agent"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The chat that receives `/orc-mode` runs the playbook. Never spawn a `orc-agent` to run the playbook itself. Routed workflow skills (`interrogate`, `reflect`, `swarm`) set their own `subagent_type` for diverse-model review. Respect what the skill prescribes, don't override to `orc-agent`.
+**Use `subagent_type: "orc-agent"` for any subagent you spawn directly inside a playbook step.** The chat that receives `/orc-mode` runs the playbook itself. Routed workflow skills (`interrogate`, `swarm`) set their own `subagent_type`. Respect it.
 
+<<<<<<< orcstack
 **Defaults for every {{spawn-subagent}} call.** Use {{background}}. Use agent mode because readonly strips MCP access. Pass file pointers instead of inlining context. Read explicit models per role from `/setup-orcstack`; without a role line, use {{model-default}}. The hardest changes use `hardest tasks`. Trivial mechanical edits use `swarm workers`. Review and design panels use {{model-default}} twice unless their panel line overrides that list. A role set to `inherit` or `auto` runs on the parent chat model, so omit `model`. Code playbooks read `feature, refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`. Prose and judgment read `judgment and prose`. Routed skills read their own role lines. If the sheet has no `# defaults: 2` line, keep honoring it and tell the user once per session to rerun `/setup-orcstack`.
 
 **Match the model to the job.** Start from the role's exact configured identifier. The `/setup-orcstack` budget sets the normal reasoning target: max for `unlimited`, xhigh for `large`, high for `medium`, and medium for `small`. `hardest tasks` starts one level higher. `reflect tooling` and `swarm workers` start one level lower. Raise or lower the target for the job only within the levels the harness reports. Use a separate effort control when the harness exposes one. Change a model identifier only when the detected catalog contains the exact replacement; never synthesize an effort or speed suffix. Use a fast variant only when a person is blocked by red CI or trunk. Verification stays on `swarm workers`. Keep panel families distinct. A role on `auto` or `inherit` stays on the parent model. If {{spawn-subagent}} rejects an adjusted identifier, retry the configured identifier once. If that also fails, use the calling skill's valid same-family fallback, or omit `model` and say so.
+=======
+**Defaults for every {{spawn-subagent}} call.** {{background}}, agent mode (readonly strips MCP), file pointers not inlined context, and an explicit model per role, Project workers included. `/setup-orcstack` writes `{{model-sheet}}`, whose per-role lines override the defaults below and the role models in the routed skills (`arena`, `swarm`, `interrogate`). A role with no line keeps its default. A line of `inherit` or `auto` runs the role on the parent model, so omit `model` and spawn {{subagent-general}}, because `orc-agent` defaults to Opus 5.5. Each code playbook reads its own line (`feature, refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`), prose and judgment read `judgment and prose`, and trivial mechanical edits read `swarm workers`. If the rule has no `# defaults: 3` line, an older setup wrote it. Keep honoring its lines, and tell the user once per session to rerun `/setup-orcstack`.
 
-You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. A second opinion is the same prompt against a different model. Agreement is high-signal.
+- Code, prose, and judgment: {{model-default}}.
+- Trivial mechanical edits: {{model-default}}.
+- Diverse review and design panels: one runner each on {{model-default}}, {{model-default}}, and `gemini-4-neon-xhigh`.
+>>>>>>> upstream
 
-**Fresh subagents by default.** Give new work to a fresh subagent with consolidated scope, meaning the original brief, every later directive, and the prior agent's report and branch. This holds for a fix round, a follow-up, a retry, and the next queue item. Resume, message, or queue a follow-up on an existing subagent only when the new work strictly needs state that lives in that agent and is costly to move: its local checkout, its uncommitted changes, or a process it still runs, such as a dev server, a simulator, or a babysit watcher. A stop or hold order to a running agent is not reuse. A role such as a PR owner outlives its agent. Once that agent returns, a fresh agent takes the role's next round. Interrupt-chained resumes silently drop directives, so fire a fresh subagent with consolidated scope rather than trusting a "done" summary.
+**Fable 5.2 is an exception.** It runs outside a panel only when the user named it for this task or two Opus 5.5 xhigh runs of the same brief failed its check. Say which. Difficulty alone never qualifies.
+
+**Match the model to the job.** Start from the role's line or default, keep its family, and set the level the job needs. The `/setup-orcstack` budget sets each role's starting level. Panel seats keep their listed level. Raise any other role one step, up to xhigh, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above xhigh. Opus 5.5 always runs its `-fast` slug. Verification always runs on the `swarm workers` model, {{model-default}} by default. A Gemini seat runs at `gemini-4-neon-xhigh` unless its line names another level. If the {{spawn-subagent}} tool rejects a slug, never pass it again. Fall back to the role's line or default, then the calling skill's fallback, then the closest valid slug of the same family, then omit `model`. Say so.
+
+You own every subagent's work. Review the diff and write your own summary. A second opinion is the same prompt on another vendor's model.
+
+**Fresh subagents by default.** Give a fix round, a follow-up, a retry, or the next queue item to a fresh subagent with the original brief, every later directive, and the prior agent's report and branch. Resume an existing subagent only when the work needs state that lives in it and is costly to move: its checkout, its uncommitted changes, or a process it still runs.
 
 ## Writing the reply
 
-Write the reply clean as you draft it. A cleanup pass after drafting does not remove these patterns.
-
-- **Short declarative sentences.** One thought per sentence, ended with a period.
-- **No long-dash character anywhere.** Write a file-list bullet as a sentence ("`main.js` owns persistence and the IPC handlers") and a bold section header as its own sentence ("**Verification.** End to end via CDP").
-- **A colon as a mid-sentence connector is also out** (unslop rule 14). A colon before a list is fine.
-- **Terse is not an excuse to drop content.** Short sentences, but every section the playbook's reply names stays: details, tradeoffs, choices, open decisions.
-- **Frame impact for the consumer and the maintainer.** Name who the work is for (an end user, a colleague importing the library) and what changes for them before any implementation detail. Then what the next engineer who owns this code inherits. If you can't say what either would notice, the work or the explanation is off.
-- **Never fabricate a link, citation, or transcript reference.** Link only artifacts you produced or read this session.
-- **Every claim carries its evidence or its label in the same sentence.** Measured, inferred, or guess. A prediction or an unseen cause is a guess. Never hand the human a check you could run.
-
-Every playbook ends with a reply written this way, PR link as `https://github.com/<owner>/<repo>/pull/<number>`. Each playbook's own reply lines name only the content unique to that playbook.
-
-## Comments
-
-Comments follow the same rule as the reply. Write them clean as you go. Keep a comment only for a non-obvious *why* the code can't show. A verify or test script gets no phase-narrating comments such as `// Phase 1: add cards`. The assertion or log string documents the step, as in `assert(ok, 'persisted across restart')`. This applies to every file you produce, including the delegate's diff.
+Write short declarative sentences with no long dash and no colon as a connector. Lead with what changes for the user. Give each claim its evidence or a label (measured, inferred, or guess). Never hand the human a check you could run.
 
 ## orcstack policies
 
@@ -161,6 +175,7 @@ The orcstack skills carry these rules out: **work-brief** for each change's brie
 
 ## Playbooks
 
+<<<<<<< orcstack
 Open a {{todo}} whose first items are the matched playbook's steps, copied in verbatim, before any task-specific todos. A step you choose not to do stays in the list with a one-line `skip: <reason>`. Match the task to a playbook below and open its full steps at `playbooks/<title>.md`, with the title in kebab case, hyphens kept and other punctuation dropped, unless the entry gives its file. Copy its steps in verbatim. Apply **Project extensions** first: skip off playbooks, add the project's playbooks to the list, and open a replaced playbook's project file.
 
 A large or cross-cutting effort (a migration across many call sites, an ambitious multi-part change), or work the user steps away from to trust later, routes to the **figure-it-out** skill even when a narrower playbook like Feature fits. Use **figure-it-out** whenever no bundled playbook fits. It designs a bespoke, rigorous playbook for the task. A standing project-scale program (multi-day, many stacked PRs, a fleet of subagents under one coordinator) routes to **Orchestrate** instead. figure-it-out designs one bespoke run, orchestrate runs the program.
@@ -188,3 +203,8 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Multi-phase or multi-PR plan.** Work that spans phases or stacked PRs. File: `playbooks/multi-phase-plan.md`.
 - **Worktree and simulator cleanup.** Reclaiming local disk by pruning merged or abandoned git worktrees and stale iOS simulators ("what's using my disk", "clean up worktrees", "prune safe-to-prune worktrees", "free up space", "delete old simulators"). File: `playbooks/worktree-cleanup.md`.
 - **Opening a PR.** Invoked at the end of every other playbook.
+=======
+Match the task to a playbook and open its steps at `playbooks/<title>.md`, with the title in kebab case. Copy its steps into the {{todo}} tool first. Large, cross-cutting, or unattended work, or a task no playbook fits, routes to the **figure-it-out** skill.
+
+Investigation, Bug fix, Perf issue, Hillclimb, Runtime forensics, Trace forensics, Feature, Refactoring, Prototype, Visual parity, Authoring a skill, Eval, Babysit, Shipping, Autonomous run, Autopilot-full, Autopilot-stack, Session pickup, Pause safely, Multi-phase plan, Worktree cleanup, Opening a PR.
+>>>>>>> upstream

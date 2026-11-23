@@ -14,7 +14,11 @@ Every candidate gets the same prompt, so the prompt is the contract.
 
 1. State the artifact each candidate is producing.
 2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
+<<<<<<< orcstack
 3. Pick the runners. Use the `arena runners` line in `{{model-sheet}}`. If the rule or that line is missing, use {{model-default}} twice. An `auto` or `inherit` entry means the parent model, so omit `model`. If {{spawn-subagent}} rejects a configured entry, run that seat on its family's first configured model and say so. To classify a provider-qualified identifier, remove everything through its last `/`, then remove a leading `cursor-`. The longest matching prefix wins for `claude-fable-*`, `claude-*`, `gemini-*`, `gpt-*`, and `grok-*`; any other family is the text before the first hyphen. If the family has no other configured model, use the closest valid identifier of that family from the error message, or drop the seat and say so. If fewer than two runners remain, add runners until there are two, or one when the configured line has one entry. Reuse a remaining runner's model, or omit `model` when none remain. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and speed per the Subagents section of the **orc-mode** skill.
+=======
+3. Pick the runners from the `arena runners` line in `{{model-sheet}}`, by default {{model-default}}, {{model-default}}, and `gemini-4-neon-xhigh`. An `auto` or `inherit` entry is the parent model, so omit `model` and spawn {{subagent-general}}. If the {{spawn-subagent}} tool rejects a slug, use the nearest valid slug of the same family or drop the seat, keep at least two runners, and say so. Families go by prefix, and the longest match wins: `claude-fable-*`, `claude-*`, and `gemini-*`, after dropping a leading `cursor-`. Any other slug's family is its text before the first hyphen. Spawn more for multiple design directions, and repeat one model when the work is generation-bound, not judgment-sensitive. Pick each subagent's reasoning level per the Subagents section of the **orc-mode** skill.
+>>>>>>> upstream
 4. Give each candidate its own output location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 ## Phase B: Fan out
@@ -25,7 +29,11 @@ If a candidate produces no output, proceed with N-1 and note the dropout.
 
 ## Phase C: Cross-judge
 
+<<<<<<< orcstack
 After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `{{model-sheet}}`. If the rule or that line is missing, use the parent model and skip the cross-judge because no different vendor is known. Spawn one readonly judge subagent. The judge is never from the parent's vendor. Determine families as Phase A step 3 does; `claude-fable-*` and `claude-*` share the Claude vendor, and `gpt-*` uses the OpenAI vendor. Try only entries from another vendor, in pool order. An `auto` or `inherit` entry is the parent model, so it never judges. If {{spawn-subagent}} rejects an entry, use a valid identifier of the same family from the error message, or move to the next entry. If no different-vendor entry runs, skip the judge, pick the base alone in Phase D, and say so. If the parent's model is unknown, try real identifiers in pool order and say that the vendor check did not run. The judge sees the rubric and candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Do not spawn it while candidates are still writing.
+=======
+After all Phase B candidates complete, spawn one readonly judge from the `arena cross-judge pool` line in `{{model-sheet}}`, by default {{model-default}}, `gemini-4-neon-xhigh`. The judge is never from the parent's vendor, and Fable counts as Claude for that check, so use the first entry from another vendor. An `auto` or `inherit` entry is the parent model. If you do not know the parent's model, use the first real slug and say that the vendor check did not run. If the {{spawn-subagent}} tool rejects a slug, use the nearest valid slug of the same family, then the next such entry, or skip the judge, and say so. While you read in Phase D, the judge scores each candidate, by path label, on each rubric criterion and recommends a base.
+>>>>>>> upstream
 
 ## Phase D: Pick a base
 

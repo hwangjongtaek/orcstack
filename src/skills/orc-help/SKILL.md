@@ -45,7 +45,17 @@ If cost is the worry, say where the tokens go and how to spend fewer. orcstack s
 
 ## Start a task with `/orc-mode`
 
+<<<<<<< orcstack
 `/orc-mode` matches the task to a playbook, copies the playbook's steps into the {{todo}}, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one.
+=======
+`/orc-mode` matches the task to a playbook, copies the playbook's steps into the {{todo}}, and runs the other skills as the steps need them. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one. [Guide page 2](../../docs/guide/02-orc-mode.md) has examples.
+
+Whether `/orc-mode` stays on depends on how the user starts it:
+
+- Enter on `/orc-mode` attaches the skill to one message. It fades as the chat moves on.
+- Option+Enter on Mac or Alt+Enter on Windows, or Use as Mode from the skill entry, makes it a Custom Mode. It stays in context every turn until the user exits the mode, and it stays out of casual turns.
+- Cursor's docs list Custom Modes in the Agents Window and the CLI. Elsewhere, start each new task with `/orc-mode`.
+>>>>>>> upstream
 
 In a orcstack-governed repository, a change starts from a section of the Planning SSOT and a short work brief with its acceptance. Mid-chat, "new task" makes `/orc-mode` match a fresh playbook. `/orc-mode` already uses `orc-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, spawn it as `orc-agent`.
 
@@ -98,8 +108,8 @@ Close calls:
 
 - `/how` explains what the code does. `/why` explains the reasons. `/teach` runs one or both and explains the result plainly.
 - `/arena` gives every worker the same brief and merges the best parts. `/swarm` splits work into slices or a race and returns one report.
-- `/architect` implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
 - `/interrogate` reviews the diff. `/blast-radius` looks for breakage outside the diff and proves the one fact that makes the change safe.
+<<<<<<< orcstack
 - `/recall` rebuilds context across recent chats. Resuming one specific chat or branch is the Session pickup playbook.
 - `/figure-it-out` designs one rigorous run. The Orchestrate playbook runs a program that spans days and many PRs. The Autonomous run playbook drives one task to a finish condition.
 
@@ -107,6 +117,16 @@ Not in orcstack:
 
 - A planning or spec skill. Plans stay temporary. The Planning SSOT, work briefs, and ADRs committed to the repository are the durable record.
 - `/orchestrate`. Orchestrate is a `/orc-mode` playbook. If a menu shows `/orchestrate`, another plugin provides it.
+=======
+- `/recall` rebuilds context across recent chats. `/ketchup` covers only this chat since the user's last message. Resuming one specific chat or branch is the Session pickup playbook.
+- `/figure-it-out` designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
+
+Not in orcstack:
+
+- `/deslop`, `control-cli`, and `control-ui` ship in the `cursor-team-kit` plugin.
+- `/loop` and `/create-skill` are Cursor built-ins.
+- orcstack has no `/orchestrate` skill. If the slash menu shows `/orchestrate`, another plugin provides it.
+>>>>>>> upstream
 
 ## Playbooks and principles
 
@@ -119,7 +139,11 @@ Playbooks are step lists inside `/orc-mode`, not skills, so they have no command
 - "full autopilot on this queue" runs Autopilot-full. "autopilot, don't merge" runs Autopilot-stack.
 - "run the eval playbook" runs Eval.
 
+<<<<<<< orcstack
 The Playbooks section of [`orc-mode`](../orc-mode/SKILL.md) lists every playbook and when it applies. For work that spans phases or stacked PRs, asking `/orc-mode` for a plan runs the [Multi-phase plan playbook](../orc-mode/playbooks/multi-phase-plan.md), which writes the plan and doesn't implement it. For a design question, the Prototype playbook or `/architect` settles it in code first.
+=======
+Without `/orc-mode`, a phrase such as "babysit this pr" can start Cursor's own skill for the same job instead. The Playbooks section of [`orc-mode`](../orc-mode/SKILL.md) lists every playbook. [Guide page 6](../../docs/guide/06-verify-and-ship.md) covers opening, babysitting, and landing a PR.
+>>>>>>> upstream
 
 Principles are one-rule skills that `/orc-mode` reads and cites in its replies. The user rarely invokes one. They steer with the names instead, as in "apply prove it works. show me the real output." Invoking `principle-<name>` still loads one on demand.
 
